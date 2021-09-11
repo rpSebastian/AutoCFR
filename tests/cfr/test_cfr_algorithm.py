@@ -185,7 +185,7 @@ class TestCFRAlgorithm:
         self.assert_dict_equal(input_values_of_names, input_values_of_names_before)
 
     def test_save_algorithm(self):
-        for algo_name in ["cfr", "cfr_plus", "dcfr", "linear_cfr"]:
+        for algo_name in ["empty", "cfr", "cfr_plus", "dcfr", "linear_cfr"]:
             algorithm = load_algorithm(algo_name, visualize=False)
             file = (
                 Path(__file__).parent.parent.parent

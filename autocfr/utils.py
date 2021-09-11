@@ -143,10 +143,10 @@ def load_game_configs(mode="full", max_size_level=6):
             "NFG-2": dict(max_score=1.1, weight=1, iterations=1000),
             "NFG-3": dict(max_score=1.1, weight=1, iterations=1000),
             "NFG-4": dict(max_score=1.1, weight=1, iterations=1000),
-            "kuhn_poker": dict(max_score=1.2, weight=3, iterations=1000),
-            "goofspiel_3": dict(max_score=1.1, weight=1, iterations=1000),
-            "liars_dice_1n_3s": dict(max_score=1.1, weight=1, iterations=1000),
-            "liars_dice_1n_4s": dict(max_score=1.2, weight=5, iterations=100),
+            # "kuhn_poker": dict(max_score=1.2, weight=3, iterations=1000),
+            # "goofspiel_3": dict(max_score=1.1, weight=1, iterations=1000),
+            # "liars_dice_1n_3s": dict(max_score=1.1, weight=1, iterations=1000),
+            # "liars_dice_1n_4s": dict(max_score=1.2, weight=5, iterations=100),
         }
         game_configs = update_game_configs_by_configs(game_configs, configs)
     elif mode == "ablation_study_train":
