@@ -1,15 +1,18 @@
 import copy
+from pathlib import Path
+
 import numpy as np
 import pytest
 from autocfr.cfr.cfr_algorithm import (
-    CFRErrorBuilder,
-    CFRProgramConstantVariables,
-    CFRProgramInputVariables,
+    CFRAlgorithm,
     CFRBuilder,
     CFREmptyBuilder,
+    CFRErrorBuilder,
     CFRPlusBuilder,
-    LinearCFRBuilder,
+    CFRProgramConstantVariables,
+    CFRProgramInputVariables,
     DCFRBuilder,
+    LinearCFRBuilder,
     load_algorithm,
 )
 from autocfr.program.executor import AlgorithmExecutionError
@@ -180,3 +183,15 @@ class TestCFRAlgorithm:
         input_values_of_names_before = copy.deepcopy(input_values_of_names)
         cfr_algorithm.execute(input_values_of_names)
         self.assert_dict_equal(input_values_of_names, input_values_of_names_before)
+
+    def test_save_algorithm(self):
+        for algo_name in ["cfr", "cfr_plus", "dcfr", "linear_cfr"]:
+            algorithm = load_algorithm(algo_name, visualize=False)
+            file = (
+                Path(__file__).parent.parent.parent
+                / "models"
+                / "algorithms"
+                / "{}.pkl".format(algo_name)
+            )
+            file.parent.mkdir(parents=True, exist_ok=True)
+            CFRAlgorithm.save(algorithm, str(file))

@@ -1,7 +1,7 @@
 import ray
-from xpoker.exp import ex
-from xpoker.evolution import Evolution
-from xpoker.utils import load_game_configs
+from autocfr.exp import ex
+from autocfr.evolution import Evolution
+from autocfr.utils import load_game_configs
 import numpy as np
 
 
@@ -10,8 +10,8 @@ def config():
     seed = 0
     population_size = 300
     tournament_size = 25
-    num_evaluators = 200
-    num_generators = 50
+    num_evaluators = 20
+    num_generators = 5
 
     print_freq = 20  
     save_freq = 1000  
@@ -33,8 +33,8 @@ def config():
 
 @ex.automain
 def main(_log):
-    ray.init(address="auto")
-    _log.info(ray.cluster_resources())
+    ray.init()
+    # ray.init(address="auto")
     evolution = Evolution()
     evolution.initial()
     evolution.start_evolve()
