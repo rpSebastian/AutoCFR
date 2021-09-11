@@ -1,0 +1,13 @@
+loguru
+sacred
+graphviz
+pretty_errors
+pandas
+seaborn
+pytest
+pytest-html
+pytest-xdist
+open_spiel
+ray==1.5.1
+torch
+tensorboard
