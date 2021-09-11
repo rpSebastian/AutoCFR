@@ -2,7 +2,7 @@ import time
 import pytest
 from autocfr.cfr.cfr_algorithm import load_algorithm
 from autocfr.cfr.cfr_solver import CFRSolver
-from autocfr.evaluator import compute_conv, evaluate_algorithm, Evaluator, VecEvaluator, GroupVecEvaluator
+from autocfr.evaluator.evaluator import compute_conv, evaluate_algorithm, Evaluator, VecEvaluator, GroupVecEvaluator
 from autocfr.utils import load_game
 
 

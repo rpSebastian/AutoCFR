@@ -4,7 +4,7 @@ from pathlib import Path
 from torch.utils.tensorboard import SummaryWriter
 
 from autocfr.cfr.cfr_algorithm import CFRAlgorithm, load_algorithm
-from autocfr.evaluator import GroupVecEvaluator, VecEvaluator
+from autocfr.evaluator.evaluator import GroupVecEvaluator, VecEvaluator
 from autocfr.exp import ex
 from autocfr.generator.generator import VecGenerator
 from autocfr.generator.mutate import mutate
