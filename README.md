@@ -24,7 +24,7 @@ You can modify the configuration in the following ways:
 2. Modify the type and number of games used for training. Specify your game in `autocfr/utils.py:load_game_configs`.
 3. By default, we learn from bootstrapping. If you want to learn from scratch, Set `init_algorithms_file` to `["models/algorithms/empty.pkl]` in `scripts/train.py`. 
 4. Modify the hyperparameters. Edit the file `scripts/train.py`.
-5. Train on distributed servers. Follow the instuctions of [ray](https://docs.ray.io/en/master/cluster/cloud.html#cluster-private-setup) to setup your private cluster and set `ray.init(address="auto")` in `scripts/train.py`.
+5. Train on distributed servers. Follow the instructions of [ray](https://docs.ray.io/en/master/cluster/cloud.html#cluster-private-setup) to setup your private cluster and set `ray.init(address="auto")` in `scripts/train.py`.
 
 You can use Tensorboard to monitor the training process. 
 ```bash
