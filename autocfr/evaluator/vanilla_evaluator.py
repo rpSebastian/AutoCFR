@@ -40,7 +40,11 @@ class VanillaEvaluator:
         conv = self.calc_conv(game, solver)
         steps = [0]
         convs = [conv]
-        for i in range(1, self.num_iters + 1):
+        if "iterations" in game_config:
+            iters = game_config["iterations"]
+        else:
+            iters = self.num_iters
+        for i in range(1, iters + 1):
             solver.iteration()
             if i % self.eval_freq == 0:
                 conv = self.calc_conv(game, solver)

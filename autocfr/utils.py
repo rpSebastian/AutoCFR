@@ -78,26 +78,31 @@ def load_game_configs(mode="full", max_size_level=6):
             "long_name": "NFG-1",
             "game_name": "nfg_game",
             "params": {"filename": "nfg/NFG-1.nfg"},
+            "transform": True
         },
         {
             "long_name": "NFG-2",
             "game_name": "nfg_game",
             "params": {"filename": "nfg/NFG-2.nfg"},
+            "transform": True
         },
         {
             "long_name": "NFG-3",
             "game_name": "nfg_game",
             "params": {"filename": "nfg/NFG-3.nfg"},
+            "transform": True
         },
         {
             "long_name": "NFG-4",
             "game_name": "nfg_game",
             "params": {"filename": "nfg/NFG-4.nfg"},
+            "transform": True
         },
         {
             "long_name": "NFG-5",
             "game_name": "nfg_game",
             "params": {"filename": "nfg/NFG-5.nfg"},
+            "transform": True
         },
         {
             "long_name": "kuhn_poker",
@@ -140,7 +145,7 @@ def load_game_configs(mode="full", max_size_level=6):
             "NFG-4": dict(max_score=1.1, weight=1, iterations=1000),
             "kuhn_poker": dict(max_score=1.2, weight=3, iterations=1000),
             "goofspiel_3": dict(max_score=1.1, weight=1, iterations=1000),
-            "liars_dice_1n_3s": dict(max_score=1.1, weight=1, iterations=680),
+            "liars_dice_1n_3s": dict(max_score=1.1, weight=1, iterations=1000),
             "liars_dice_1n_4s": dict(max_score=1.2, weight=5, iterations=100),
         }
         game_configs = update_game_configs_by_configs(game_configs, configs)
@@ -148,7 +153,7 @@ def load_game_configs(mode="full", max_size_level=6):
         configs = {
             "kuhn_poker": dict(max_score=1.2, weight=3, iterations=1000),
             "goofspiel_3": dict(max_score=1.1, weight=1, iterations=1000),
-            "liars_dice_1n_3s": dict(max_score=1.1, weight=1, iterations=680),
+            "liars_dice_1n_3s": dict(max_score=1.1, weight=1, iterations=1000),
             "liars_dice_1n_4s": dict(max_score=1.2, weight=5, iterations=100),
         }
         game_configs = update_game_configs_by_configs(game_configs, configs)
@@ -186,6 +191,7 @@ def save_df(df, filename):
         / "dataframe"
         / "{}.csv".format(filename)
     )
+    csv_file.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(csv_file, index=False)
 
 
