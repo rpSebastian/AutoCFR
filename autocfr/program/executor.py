@@ -67,7 +67,6 @@ def _execute_program(
         for k, v in data_structure_values.items():
             if k.name == "policy":
                 policy_value = v.value()
-                # 保证策略值均大于等于0，和为1。
                 min_policy_value = np.min(policy_value)
                 sum_policy_value = np.sum(policy_value)
                 if min_policy_value < 0 or abs(sum_policy_value - 1) > 1e-3:
@@ -82,7 +81,6 @@ def _execute_program(
 
             if k.name == "cum_policy":
                 cum_policy_value = v.value()
-                # 保证累积策略值均大于等于0。
                 min_cum_policy_value = np.min(cum_policy_value)
                 if min_cum_policy_value < 0:
                     e = PostCheckError("cum policy value erorr")

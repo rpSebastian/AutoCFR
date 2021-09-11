@@ -27,24 +27,6 @@ class Generator(Worker):
         self.early_hurdle_iters = early_hurdle_iters
 
     def run(self, task):
-        """变异或交叉程序得到新智能体
-
-        1. 对程序进行变异或交叉
-        2. 检验新程序，若出现异常则重新变异/交叉
-        3. 计算early hurdle分数，若出现异常则重新变异/交叉
-        4. 计算程序的hash编码
-
-        Args:
-            task (dict): 变异所需信息
-                parent_algorithm_A (Algorithm): 待变异/交叉的第一个程序
-                parent_algorithm_B (Algorithm): 待变异/交叉的第二个程序
-
-        Returns:
-            result (dict): 结果保存字典
-                state (str): succ
-                eval_index （int): 评估程序的评估器编号
-                agents (list): 变异/交叉得到的智能体
-        """
         parent_algorithm_A = task["parent_algorithm_A"]
         parent_algorithm_B = task["parent_algorithm_B"]
         self.early_hurdle_threshold = task["early_hurdle_threshold"]
@@ -127,12 +109,6 @@ class VecGenerator(VecWorker):
         super().__init__(num_generators, Generator, **kwargs)
 
     def gen_agent_infos(self, parent_algorithm_A, parent_algorithm_B, early_hurdle_threshold):
-        """并行化变异程序，将该程序加入到队列中准备变异。
-
-        Args:
-           parent_algorithm_A (Algorithm): 待交叉/变异的程序A
-           parent_algorithm_B (Algorithm): 待交叉/变异的程序B
-        """
         task = dict(
             parent_algorithm_A=parent_algorithm_A,
             parent_algorithm_B=parent_algorithm_B,

@@ -124,7 +124,6 @@ class CFRSolver:
                 v += p * self.calc_regret(h.child(a), traveser, my_reach, opp_reach * p)
             return v
 
-        # 剪枝，双方概率都为0时没有必要计算
         if opp_reach + my_reach == 0:
             return 0
 
@@ -148,8 +147,5 @@ class CFRSolver:
         for index, a in enumerate(h.legal_actions()):
             s.ins_regret[index] += opp_reach * (child_v[a] - v)
 
-        # 累积当前策略的自己到达概率，用来更新平均策略。
         s.reach += my_reach
-        # s.cfv_history[self.iter_count] += opp_reach * v
-        # self.cumulate_policy(s, my_reach)
         return v

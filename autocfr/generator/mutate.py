@@ -59,11 +59,9 @@ class Mutate:
             )
 
         if len(forward_program) < max_program_length:
-            # 增加一个算子
             while len(forward_program) < max_program_length:
                 forward_program = self.add_operation(forward_program, variables_by_type)
         else:
-            # 修改一个算子。随机选择一个算子，替换为一个输出类型相同，输入随机的算子。
             if random.random() < 0.95:
                 forward_program = self.modify_operation(
                     forward_program, variables_by_type
@@ -88,21 +86,11 @@ class Mutate:
             variables_by_type[t].add(operation)
 
     def add_operation(self, forward_program, variables_by_type):
-        # operations_list = get_operation_list()
-        # new_operation = sample(operations_list)
         for constant in variables_by_type.get(program_types.Constant):
             if constant.var_type.constant_value == 0:
                 zero = constant
         new_operation = operations.Add
         operation_obj = new_operation(forward_program[-1], zero)
-        # while True:
-        #     inputs = [
-        #         self.sample(list(variables_by_type.get(input_type, [])))
-        #         for input_type in new_operation.input_program_types
-        #     ]
-        #     if new_operation.inputs_allowed(inputs):
-        #         operation_obj = new_operation(*inputs)
-        #         break
         forward_program.append(operation_obj)
         self.add_graph_node(
             operation_obj, operation_obj.cached_output_type, variables_by_type
@@ -110,30 +98,22 @@ class Mutate:
         return forward_program
 
     def modify_operation(self, forward_program, variables_by_type):
-        # 随机选择一个替换的算子
         old_operation = self.sample(
             [op for op in forward_program]
         )
-
-        # 随机选择一个输出类型相同的算子
         valid_operations = [
             op
             for op in self.operations_list
             if old_operation.cached_output_type.__class__ in op.possible_output_types
         ]
-        # print(valid_operations)
         new_operation = self.sample(valid_operations)
 
-        # 过滤替换算子之后的算子，保证DAG.
         mask = {old_operation: 1}
         for op in forward_program:
             for op_in in op.inputs:
                 if op_in in mask:
                     mask[op] = 1
 
-        # print("old_operation", old_operation)
-        # print("new_operation", new_operation)
-        # 选择算子输入
         while True:
             inputs = []
             for input_type in new_operation.input_program_types:
@@ -142,24 +122,19 @@ class Mutate:
                 ]
                 inputs.append(self.sample(valid_inputs))
 
-            # 创建新的算子对象
             if new_operation.inputs_allowed(inputs):
                 operation_obj = new_operation(*inputs)
                 if (
                     operation_obj.cached_output_type.__class__
                     == old_operation.cached_output_type.__class__
                 ):
-                    # print(inputs)
                     break
 
-        # 替换原算子
         forward_program = [
             operation_obj if op == old_operation else op for op in forward_program
         ]
 
-        # 替换原算子的后继算子
         for op in forward_program:
-            # inputs = [operation_obj if op_in == old_operation else op_in for op_in in op.inputs]
             inputs = []
             for op_in in op.inputs:
                 if op_in == old_operation:
@@ -168,10 +143,8 @@ class Mutate:
                     inputs.append(op_in)
             op.inputs = inputs
 
-        # 拓扑排序
         self.topological_sort(forward_program)
 
-        # 维护variables_by_type
         for t, operation_set in variables_by_type.items():
             if old_operation in operation_set:
                 operation_set.remove(old_operation)

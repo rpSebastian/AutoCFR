@@ -63,7 +63,6 @@ class Program:
             if type(variable) is operations.Variable:
                 var_name = variable.name
             else:
-                # var_name = chr(name_num + 97)
                 var_name = var_name_list[name_num]
                 name_num += 1
 
@@ -109,14 +108,7 @@ class Program:
                     if hasattr(node, "short_name")
                     else type(node).__name__
                 )
-                # output_type = (
-                #     type(node.cached_output_type).__name__
-                #     if not hasattr(node.cached_output_type, "short_name")
-                #     else node.cached_output_type.short_name
-                # )
                 return f"< <B>{str(nodename)}</B> >"
-                # <BR/>" \
-                #     + f"{output_type} >"  # ({var_to_name[node]})
 
         if debug_text:
             g.node("debug_text", label=str(debug_text))

@@ -86,29 +86,6 @@ class Evaluator(Worker):
         self.exp_lower_limit = exp_lower_limit
 
     def run(self, task):
-        """评估某个程序在某个游戏下的利用率
-
-        Args:
-            task (dict): 评估所需信息
-                agent_index (int): 该程序对应的智能体编号
-                algorithm (Algorithm): 待评估的程序
-                game_config (dict): 评估游戏配置
-
-        Returns:
-            result (dict): 结果保存字典[正常运行]
-                state: succ
-                worker_index: 评估程序的评估器编号
-                agent_index: 评估程序对应的智能体编号
-                game_config: 评估游戏配置
-                conv: 评估程序的利用率
-            result (dict): 结果保存字典[异常]
-                state: fail
-                eval_index: 评估程序的评估器编号
-                agent_index: 评估程序对应的智能体编号
-                game_config: 评估游戏配置
-                info: 异常信息
-                traceback: 异常栈
-        """
         game_config = task["game_config"]
         algorithm = task["algorithm"]
         agent_index = task["agent_index"]
@@ -145,35 +122,12 @@ class VecEvaluator(VecWorker):
         super().__init__(num_evaluators, Evaluator, **kwargs)
 
     def eval_algorithm(self, agent_index, algorithm, game_config):
-        """并行化评估程序，将该程序加入到评估队列中准备评估。
-
-        Args:
-           agent_index (int): 该程序对应的智能体编号
-           program (Program): 待评估的程序
-           game_config (dict): 游戏配置
-        """
         task = dict(
             agent_index=agent_index, algorithm=algorithm, game_config=game_config
         )
         self.add_task(task)
 
     def get_evaluating_result(self):
-        """检查评估完成队列，若队列中有评估完成的任务返回评估结果，否则返回None
-
-        Returns:
-            result (None): 评估未完成
-            result (dict): 结果保存字典[正常运行]
-                state: succ
-                agent_index: 评估程序对应的智能体编号
-                game_config: 评估游戏配置
-                conv: 评估程序的利用率
-            result (dict): 结果保存字典[异常]
-                state: fail
-                agent_index: 评估程序对应的智能体编号
-                game_config: 评估游戏配置
-                error: 异常对象
-                info: 异常信息
-        """
         return self.get_result()
 
 
@@ -186,34 +140,6 @@ class EvaluatorContainer(Worker):
         verbose=True,
         exp_lower_limit=1e-12,
     ):
-        """评估某个程序在某个游戏下的利用率
-
-        Args:
-            task (dict): 评估所需信息
-                agent_index (int): 该程序对应的智能体编号
-                program (Program): 待评估的程序
-                game_config (dict): 游戏配置
-                    long_name : 完整游戏名，唯一
-                    game_name: pyspiel读取的游戏名
-                    params: pyspiel读取的游戏参数
-                    transform: 是否将游戏由同时博弈转换为回合制博弈
-                    iterations: CFR迭代的次数
-
-        Returns:
-            result (dict): 结果保存字典[正常运行]
-                state: succ
-                eval_index: 评估程序的评估器编号
-                agent_index: 评估程序对应的智能体编号
-                game_config: 评估游戏配置
-                conv: 评估程序的利用率
-            result (dict): 结果保存字典[异常]
-                state: fail
-                eval_index: 评估程序的评估器编号
-                agent_index: 评估程序对应的智能体编号
-                game_config: 评估游戏配置
-                error: 异常对象
-                info: 异常信息
-        """
         game_config = task["game_config"]
         algorithm = task["algorithm"]
         evaluate_result = evaluate_algorithm(
@@ -251,13 +177,7 @@ class GroupVecEvaluator(GroupVecWorker):
         super().__init__(num_evaluators, EvaluatorContainer, **kwargs)
 
     def eval_algorithm_parallel(self, agent_index, algorithm, game_configs):
-        """并行化评估程序，将该程序加入到评估队列中准备评估。
 
-        Args:
-           agent_index (int): 该程序对应的智能体编号
-           program (Program): 待评估的程序
-           game_config (dict): 游戏配置
-        """
         tasks = []
         for game_config in game_configs:
             task = dict(
@@ -267,20 +187,4 @@ class GroupVecEvaluator(GroupVecWorker):
         self.add_tasks(tasks)
 
     def get_evaluating_result(self):
-        """检查评估完成队列，若队列中有评估完成的任务返回评估结果，否则返回None
-
-        Returns:
-            result (None): 评估未完成
-            result (dict): 结果保存字典[正常运行]
-                state: succ
-                agent_index: 评估程序对应的智能体编号
-                game_config: 评估游戏配置
-                conv: 评估程序的利用率
-            result (dict): 结果保存字典[异常]
-                state: fail
-                agent_index: 评估程序对应的智能体编号
-                game_config: 评估游戏配置
-                error: 异常对象
-                info: 异常信息
-        """
         return self.get_result()

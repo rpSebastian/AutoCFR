@@ -30,18 +30,6 @@ class Evolution:
 
     @ex.capture
     def start_evolve(self):
-        """循环执行演化算法。
-        0. 评估器队列已满，阻塞运行
-        1. 从种群中采样tournament_size个个体。
-        2. 对采样的个体进行竞标赛，选取评分最高的个体。
-        3. 对评分最高的个体进行变异，得到新个体。
-        4. 将新个体加入评估队列中
-        5. 每产生save_freq个体，保存种群
-
-        Args:
-            save_freq (int): 种群保存间隔，每产生save_freq个个体保存一次种群。
-            num_evaluators (int): 并行评估模型的进程数
-        """
         while True:
             time.sleep(0.01)
 
@@ -116,12 +104,6 @@ class Evolution:
 
     @ex.capture
     def fetch_evaluating_result(self):
-        """从Evaluator中获取已评估完成的智能体。
-
-        若智能体的程序出现错误，设置该智能体的分数为-10，打印程序异常原因。
-        若智能体的程序正常运行，将智能体的利用率转换为分数，将智能体加入种群。
-        """
-
         result = self.evaluator.get_evaluating_result()
         if result is None:
             return
@@ -218,22 +200,12 @@ class Evolution:
 
     @ex.capture
     def init_game_config(self, game_configs):
-        """初始化待评估的游戏配置。"""
         self.game_configs = game_configs
         for game_config in game_configs:
             self.logger.info(game_config)
 
     @ex.capture
     def init_population(self, init_population_file=None, init_algorithms_file=None):
-        """初始化种群。 初始化空程序即为从零开始搜素。
-
-        若指定了种群文件则从种群文件中读取所有个体。
-        若指定了初始化程序文件，读取并评估每个程序后加入种群。
-
-        Args:
-            init_population_file (str, optional): 初始化程序文件。. Defaults to None.
-            init_programs_file (str, optional): 初始化种群文件. Defaults to None.
-        """
         if init_population_file is not None:
             self.init_population_from_file(init_population_file)
         elif init_algorithms_file is not None:
@@ -285,10 +257,8 @@ class Evolution:
                 )
                 tasks.append(task)
 
-        # execute tasks, s.t. evaluate each agent in each game_config
         results = evaluator.execute_tasks(tasks)
 
-        # set scores
         for result in results:
             agent_index = result["agent_index"]
             agent = Agent.get_agent(agent_index)
@@ -323,25 +293,6 @@ class Evolution:
         Population.save(self.population, str(file))
 
     def set_agent_score_from_result(self, agent, result, verbose=False):
-        """读取评估结果，设置评估智能体的分数。
-
-        Args:
-            agent (Agent): 智能体。
-            result (dict): 结果保存字典[正常运行]
-                state: succ
-                eval_index: 评估程序的评估器编号
-                agent_index: 评估程序对应的智能体编号
-                game_config: 评估游戏配置
-                conv: 评估程序的利用率
-            result (dict): 结果保存字典[异常]
-                state: fail
-                eval_index: 评估程序的评估器编号
-                agent_index: 评估程序对应的智能体编号
-                game_config: 评估游戏配置
-                error: 异常对象
-                info: 异常信息
-            verbose (str): 是否打印评估信息
-        """
         conv = result["conv"]
         game_config = result["game_config"]
         game_name = game_config["name"]

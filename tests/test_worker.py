@@ -7,24 +7,6 @@ import ray
 class DiverContainer(Worker):
     @ray.remote
     def run(task):
-        """执行除法。
-
-        Args:
-            task (dict）：执行除法所需信息
-                a: 被除数
-                b: 除数
-
-        Return:
-            result (dict): 任务执行结果[正常运行]
-                state: succ
-                worker_index: 任务执行器编号
-                out: 除法结果
-            result (dict): 任务执行结果[异常]
-                state: succ
-                worker_index: 任务执行器编号
-                error: 异常对象
-                info: 异常信息
-        """
         a = task["a"]
         b = task["b"]
         result = {
@@ -48,24 +30,6 @@ class DiverContainer(Worker):
 
 class Diver(Worker):
     def run(self, task):
-        """执行除法。
-
-        Args:
-            task (dict）：执行除法所需信息
-                a: 被除数
-                b: 除数
-
-        Return:
-            result (dict): 任务执行结果[正常运行]
-                state: succ
-                worker_index: 任务执行器编号
-                out: 除法结果
-            result (dict): 任务执行结果[异常]
-                state: succ
-                worker_index: 任务执行器编号
-                error: 异常对象
-                info: 异常信息
-        """
         try:
             result = self.get_result_dict(task)
             a = task["a"]
@@ -120,12 +84,10 @@ def atest_parallel_run_sync():
 def atest_group_run():
     ray.init()
     group_vec_worker = GroupVecWorker(10, DiverContainer)
-    # group_vec_worker.add_tasks([dict(a=1, b=2), dict(a=3, b=4)])
     group_vec_worker.add_tasks([dict(a=3, b=4), dict(a=3, b=7), dict(a=1, b=1)])
     group_vec_worker.add_tasks([dict(a=3, b=4), dict(a=5, b=0)])
     group_vec_worker.add_tasks([dict(a=1, b=0), dict(a=3, b=4), dict(a=3, b=0)])
     group_vec_worker.add_tasks([dict(a=1, b=4), dict(a=3, b=0), dict(a=2, b=4), ])
-    # group_vec_worker.add_tasks([dict(a=1, b=1), dict(a=3, b=1)])
 
     for i in range(20):
         time.sleep(1)

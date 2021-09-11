@@ -446,18 +446,6 @@ class DCFRBuilder(CFRBuilder):
 
 
 def load_algorithm(algorithm_name, visualize=False):
-    """根据程序名读取预定义的CFR程序。 Options: [cfr, linear_cfr, cfr_plus, dcfr, ecfr]
-
-    Args:
-        algorithm_name (str): CFR变体算法名。
-        visualize (bool, optional): 是否保存程序的可视化图片. Defaults to False.
-
-    Raises:
-        ValueError: 输入了不支持的算法名返回异常
-
-    Returns:
-        program [Program]: 算法名对应的程序名
-    """
     build_dict = {
         "cfr": CFRBuilder,
         "linear_cfr": LinearCFRBuilder,
@@ -468,7 +456,7 @@ def load_algorithm(algorithm_name, visualize=False):
         "empty": CFREmptyBuilder,
     }
     if algorithm_name not in build_dict:
-        raise Exception("不支持的CFR算法名: {}".format(algorithm_name))
+        raise Exception("Do not support algorithm: {}".format(algorithm_name))
     algorithm_builder = build_dict[algorithm_name]()
     algorithm = algorithm_builder.build_algorithm()
     if visualize:

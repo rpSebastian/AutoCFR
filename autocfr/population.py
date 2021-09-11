@@ -65,19 +65,12 @@ class Agent:
 
     @ex.capture
     def save(self, _run, prefix=None):
-        """保存智能体的程序和可视化图片
-
-        Args:
-            _run ([type]): [description]
-            valid (bool, optional): 若智能体对应的程序时有效的(对利用率下降有帮助)，则保存在另外的文件夹中. Defaults to False.
-        """
         if prefix:
             prefix += "_"
         else:
             prefix = ""
         run_id = _run._id
 
-        # save algorithm
         file = (
             Path(__file__).parent.parent
             / "logs"
@@ -89,7 +82,6 @@ class Agent:
         with file.open("wb") as f:
             pickle.dump(self.algorithm, f)
 
-        # visulize algorithm
         file = (
             Path(__file__).parent.parent
             / "logs"
@@ -108,13 +100,13 @@ class Agent:
 
 class AgentCounter:
     def __init__(self):
-        self.generating = 0  # 竞争获胜者，变异产生新程序中
-        self.early_hurdle = 0  # 新程序在小环境中分数低，不再进一步评测，直接加入种群
-        self.func_equiv = 0  # 新程序函数相等，直接加入种群
-        self.evaluaing = 0  # 新程序评估中
-        self.succ = 0  # 新程序评估完成，没有出现异常
-        self.fail = 0  # 新程序评估出现异常，抛弃该程序。
-        self.check_fail = 0  # 生成程序中检验失败直接抛弃的程序
+        self.generating = 0
+        self.early_hurdle = 0
+        self.func_equiv = 0
+        self.evaluaing = 0
+        self.succ = 0
+        self.fail = 0
+        self.check_fail = 0
         self.drop = 0
 
     def cum_check_fail(self, num):
@@ -156,7 +148,7 @@ class AgentCounter:
             "succ": self.succ,
             "fail": self.fail,
             "check_fail": self.check_fail,
-            "drop": self.drop
+            "drop": self.drop,
         }
         return state
 
@@ -185,7 +177,10 @@ class Population:
         cur_population_size = len(self.popu)
         sample_num = min(cur_population_size, self.tournament_size)
         agent_indexes = random.sample(list(range(cur_population_size)), sample_num)
-        winner = max([self.popu[index] for index in agent_indexes], key=lambda agent: agent.ave_score)
+        winner = max(
+            [self.popu[index] for index in agent_indexes],
+            key=lambda agent: agent.ave_score,
+        )
         return winner
 
     def print(self):
@@ -201,8 +196,6 @@ class Population:
         func_equal_agent = self.get_func_equal_agent(agent)
         if abs(func_equal_agent.early_hurdle_score - agent.early_hurdle_score) > 1e-6:
             print("func equal eroror!!!")
-            # func_equal_agent.save(prefix="error")
-            # agent.save(prefix="error")
             return False
         return True
 
@@ -219,7 +212,12 @@ class Population:
 
     @property
     def early_hurdle_threshold(self, percentile=75):
-        return min(np.percentile([agent.early_hurdle_score for agent in self.popu], percentile), 0.5)
+        return min(
+            np.percentile(
+                [agent.early_hurdle_score for agent in self.popu], percentile
+            ),
+            0.5,
+        )
 
     @property
     def max_agent_index(self):

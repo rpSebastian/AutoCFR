@@ -12,14 +12,6 @@ class Standing:
         self.baseline_score = pd.read_csv(csv_file)
 
     def score(self, exp, game_config):
-        """将某游戏的利用率转换为评分
-
-        Args:
-            exp (float): 程序利用率
-
-        Returns:
-            score (float): 程序评分
-        """
         iters = game_config["iterations"]
         game_name = game_config["long_name"]
         cfr_exp = self.get_exp("CFR", game_name, iters)
@@ -33,9 +25,9 @@ class Standing:
     def get_exp(self, algorithm_name, game_name, iters):
         df = self.baseline_score
         exp = df[
-            (df.algorithm_name == algorithm_name) &
-            (df.game_name == game_name) &
-            (df.step == iters)
+            (df.algorithm_name == algorithm_name)
+            & (df.game_name == game_name)
+            & (df.step == iters)
         ].iloc[0]["exp"]
         return exp
 

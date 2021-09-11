@@ -23,14 +23,6 @@ class HashEncoding:
             self.random_samples.extend(self.load_samples(filename))
 
     def hash_encoding(self, algorithm):
-        """根据10个随机产生的输入，将程序的输出连接起来，得到程序的hash编码。在调用hash_encoding前应先调用program_check，保证程序执行不出错
-
-        Args:
-            algorithm: 待编码的输入程序
-
-        Returns:
-            hash_code (str): 程序的hash编码
-        """
         hash_code = ""
         for input_values_of_names in self.random_samples:
             output_values_of_names = algorithm.execute(input_values_of_names)
