@@ -40,7 +40,7 @@ def main():
         "Algorithm_{}_{}".format(args.logid, algorithm_index),
         eval_freq=20,
         print_freq=100,
-        num_iters=40000
+        num_iters=20000
     )
     evaluator.evaluate()
 

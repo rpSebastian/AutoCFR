@@ -159,9 +159,9 @@ def load_game_configs(mode="full", max_size_level=6):
         game_configs = update_game_configs_by_configs(game_configs, configs)
     elif mode == "test":
         configs = {
-            "NFG-5": dict(iterations=40000),
-            "goofspiel_4": dict(iterations=40000),
-            "leduc_poker": dict(iterations=40000),
+            "NFG-5": dict(iterations=20000),
+            "goofspiel_4": dict(iterations=20000),
+            "leduc_poker": dict(iterations=20000),
         }
         game_configs = update_game_configs_by_configs(game_configs, configs)
     elif mode == "full":

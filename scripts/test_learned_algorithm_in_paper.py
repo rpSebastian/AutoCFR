@@ -14,7 +14,7 @@ def evaluate(algo_names, game_configs):
         algo_names,
         eval_freq=20,
         print_freq=100,
-        num_iters=40000,
+        num_iters=20000,
     )
     evaluator.evaluate()
 
