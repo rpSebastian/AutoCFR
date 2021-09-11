@@ -33,7 +33,7 @@ def load_best_algorithm(logid):
 def main():
     args = get_args()
     algorithm_index, algorithm = load_best_algorithm(args.logid)
-    game_configs = load_game_configs(mode="train")
+    game_configs = load_game_configs(mode="test")
     evaluator = AlgorithmEvaluator(
         game_configs,
         algorithm,
