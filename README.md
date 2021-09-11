@@ -9,5 +9,3 @@ conda activate autocfr
 pip install -e .
 pytest tests
 ```
-
-

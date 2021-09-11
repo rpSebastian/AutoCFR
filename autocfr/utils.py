@@ -1,10 +1,11 @@
 import importlib
+import math
 import time
 from collections import defaultdict
 from pathlib import Path
-import math
-import pandas as pd
+
 import matplotlib.pyplot as plt
+import pandas as pd
 import seaborn as sns
 
 
@@ -46,7 +47,7 @@ def load_game(game_config):
             if p == "filename":
                 from pathlib import Path
                 v = str(Path(__file__).absolute().parent.parent / v)
-            params[p] = pyspiel.GameParameter(v)
+            params[p] = v
         game = pyspiel.load_game(game_config["game_name"], params)
     else:
         game = pyspiel.load_game(game_config["game_name"])
@@ -63,9 +64,12 @@ def update_game_configs_by_configs(game_configs, configs):
     ]
     for game_config in game_configs:
         config = configs[game_config["long_name"]]
-        game_config["max_score"] = config["max_score"]
-        game_config["weight"] = config["weight"]
-        game_config["iterations"] = config["iterations"]
+        if "max_score" in config:
+            game_config["max_score"] = config["max_score"]
+        if "weight" in config:
+            game_config["weight"] = config["weight"]
+        if "iterations" in config:
+            game_config["iterations"] = config["iterations"]
     return game_configs
 
 def load_game_configs(mode="full", max_size_level=6):
@@ -149,17 +153,12 @@ def load_game_configs(mode="full", max_size_level=6):
         }
         game_configs = update_game_configs_by_configs(game_configs, configs)
     elif mode == "test":
-        game_names = [
-            "NFG-5",
-            "leduc_poker",
-            "liars_dice_1n_4s",
-            "goofspiel_4",
-        ]
-        game_configs = [
-            game_config
-            for game_config in game_configs
-            if game_config["long_name"] in game_names
-        ]
+        configs = {
+            "NFG-5": dict(iterations=40000),
+            "goofspiel_4": dict(iterations=40000),
+            "leduc_poker": dict(iterations=40000),
+        }
+        game_configs = update_game_configs_by_configs(game_configs, configs)
     elif mode == "full":
         pass
     else:

@@ -7,9 +7,9 @@ from autocfr.cfr.cfr_algorithm import CFRAlgorithm, load_algorithm
 from autocfr.evaluator import GroupVecEvaluator, VecEvaluator
 from autocfr.exp import ex
 from autocfr.generator.generator import VecGenerator
+from autocfr.generator.mutate import mutate
 from autocfr.population import Agent, AgentCounter, Population
 from autocfr.standing import standing
-from autocfr.generator.mutate import mutate
 
 
 class Evolution:
