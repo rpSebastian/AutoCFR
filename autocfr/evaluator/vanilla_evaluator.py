@@ -7,7 +7,7 @@ from open_spiel.python.algorithms import exploitability
 from autocfr.utils import load_game, load_module, save_df
 
 class VanillaEvaluator:
-    def __init__(self, game_configs, algo_names, df_name, num_iters=1000, eval_freq=20, print_freq=20, verbose=True):
+    def __init__(self, game_configs, algo_names, df_name=None, num_iters=1000, eval_freq=20, print_freq=20, verbose=True):
         self.game_configs = game_configs
         self.algo_names = algo_names
         self.df_name = df_name
@@ -30,7 +30,8 @@ class VanillaEvaluator:
                 )
         pool.close()
         pool.join()
-        save_df(self.df, self.df_name)
+        if self.df_name is not None:
+            save_df(self.df, self.df_name)
 
     def evaluate_run(self, game_config, algo_name):
         game_name = game_config["long_name"]
