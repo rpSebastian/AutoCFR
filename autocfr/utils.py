@@ -174,6 +174,7 @@ def load_game_configs(mode="full", max_size_level=6):
 
 
 def load_module(name):
+    print(name)
     if ":" in name:
         mod_name, attr_name = name.split(":")
     else:

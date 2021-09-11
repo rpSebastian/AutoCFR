@@ -1,0 +1,114 @@
+digraph "/home/dell/autocfr/logs/3/valid_images/images_119_cumulative_strategy" {
+	{
+		node [color=green peripheries=1 shape=box]
+		m [label=< <B>Div</B> >]
+	}
+	{
+		node [color="" fillcolor=lightgray shape=box style=filled]
+		1 [label=< <B> 1 </B> >]
+	}
+	{
+		node [color="" fillcolor=lightblue shape=box style=filled]
+		ins_regret [label=< <B> ins_regret </B> >]
+	}
+	{
+		node [color=green shape=box style=filled]
+		p [label=< <B>Add</B> >]
+	}
+	{
+		node [color=black peripheries=1 shape=box]
+		j [label=< <B>Multiply</B> >]
+	}
+	{
+		node [color=green peripheries=1 shape=box]
+		n [label=< <B>Pow</B> >]
+	}
+	{
+		node [color="" fillcolor=lightblue shape=box style=filled]
+		reach_prob [label=< <B> reach_prob </B> >]
+	}
+	{
+		node [color="" fillcolor=lightgray shape=box style=filled]
+		2 [label=< <B> 2 </B> >]
+	}
+	{
+		node [color=black peripheries=1 shape=box]
+		l [label=< <B>Add</B> >]
+	}
+	{
+		node [color=black peripheries=1 shape=box]
+		i [label=< <B>GE</B> >]
+	}
+	{
+		node [color="" fillcolor=lightblue shape=box style=filled]
+		strategy [label=< <B> strategy </B> >]
+	}
+	{
+		node [color="" fillcolor=lightgray shape=box style=filled]
+		0 [label=< <B> 0 </B> >]
+	}
+	{
+		node [color=black peripheries=1 shape=box]
+		o [label=< <B>Multiply</B> >]
+	}
+	{
+		node [color="" fillcolor=lightblue shape=box style=filled]
+		iters [label=< <B> iters </B> >]
+	}
+	{
+		node [color="" fillcolor=lightblue shape=box style=filled]
+		cumu_strategy [label=< <B> cumu_strategy </B> >]
+	}
+	{
+		node [color=green peripheries=1 shape=box]
+		k [label=< <B>Subtract</B> >]
+	}
+	{
+		ins_regret -> i
+	}
+	{
+		iters -> i
+	}
+	{
+		reach_prob -> j
+	}
+	{
+		strategy -> j
+	}
+	{
+		iters -> k
+	}
+	{
+		1 -> k
+	}
+	{
+		i -> l
+	}
+	{
+		0 -> l
+	}
+	{
+		k -> m
+	}
+	{
+		iters -> m
+	}
+	{
+		m -> n
+	}
+	{
+		2 -> n
+	}
+	{
+		cumu_strategy -> o
+	}
+	{
+		n -> o
+	}
+	{
+		o -> p
+	}
+	{
+		j -> p
+	}
+}
