@@ -134,16 +134,12 @@ class DCFRSolver(CFRSolver):
 
 
 
-class DDCFRSolver(CFRSolver):
+class DCFRPlusSolver(CFRSolver):
     def cumulate_regret(self, s):
         T = float(self.iter_count)
         for a in s.regrets.keys():
             s.regrets[a] = max(
-                min(
-                    s.regrets[a] * np.power(T - 1, 1.5) / (np.power(T - 1, 1.5) + 1.5),
-                    1,
-                )
-                + s.imm_regrets[a],
+                s.regrets[a] * np.power(T - 1, 1.5) / (np.power(T - 1, 1.5) + 1.5) + s.imm_regrets[a],
                 0,
             )
             s.imm_regrets[a] = 0

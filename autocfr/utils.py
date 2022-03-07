@@ -72,7 +72,7 @@ def update_game_configs_by_configs(game_configs, configs):
             game_config["iterations"] = config["iterations"]
     return game_configs
 
-def load_game_configs(mode="full", max_size_level=6):
+def load_game_configs(mode="full"):
     game_configs = [
         {
             "long_name": "NFG-1",
@@ -96,12 +96,6 @@ def load_game_configs(mode="full", max_size_level=6):
             "long_name": "NFG-4",
             "game_name": "nfg_game",
             "params": {"filename": "nfg/NFG-4.nfg"},
-            "transform": True
-        },
-        {
-            "long_name": "NFG-5",
-            "game_name": "nfg_game",
-            "params": {"filename": "nfg/NFG-5.nfg"},
             "transform": True
         },
         {
@@ -159,13 +153,24 @@ def load_game_configs(mode="full", max_size_level=6):
         game_configs = update_game_configs_by_configs(game_configs, configs)
     elif mode == "test":
         configs = {
-            "NFG-5": dict(iterations=20000),
             "goofspiel_4": dict(iterations=20000),
             "leduc_poker": dict(iterations=20000),
         }
         game_configs = update_game_configs_by_configs(game_configs, configs)
     elif mode == "full":
-        pass
+        configs = {
+            "NFG-1": dict(iterations=1000),
+            "NFG-2": dict(iterations=1000),
+            "NFG-3": dict(iterations=1000),
+            "NFG-4": dict(iterations=1000),
+            "kuhn_poker": dict(iterations=1000),
+            "goofspiel_3": dict(iterations=1000),
+            "liars_dice_1n_3s": dict(iterations=1000),
+            "liars_dice_1n_4s": dict(iterations=100),
+            "goofspiel_4": dict(iterations=20000),
+            "leduc_poker": dict(iterations=20000),
+        }
+        game_configs = update_game_configs_by_configs(game_configs, configs)
     else:
         raise Exception("Do not support mode {}".format(mode))
     for game_config in game_configs:
