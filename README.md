@@ -1,12 +1,16 @@
-# AutoCFR
-This is the code for "AutoCFR: Learning to Design Counterfactual Regret Minimization Algorithms".
+# AutoCFR: Learning to Design Counterfactual Regret Minimization Algorithms
+
+> AutoCFR: Learning to Design Counterfactual Regret Minimization Algorithms".
+> Hang Xu<sup>\*</sup> , Kai Li<sup>\*</sup>, Haobo Fu, Qiang Fu, Junliang Xing<sup>#</sup>
+> AAAI 2022 (Oral)
+
 
 ## Install AutoCFR
 
 ```bash
 sudo apt install graphviz xdg-utils xvfb
-conda create -n autocfr python==3.7
-conda activate autocfr
+conda create -n AutoCFR python==3.7
+conda activate AutoCFR
 pip install -e .
 pytest tests
 ```
@@ -39,7 +43,8 @@ python scripts/test_learned_algorithm.py --logid={experiment id}
 ```
 
 ## Test learned algorithms in Paper
-Run the following script to test learned algorithms in Paper, i.e., DDCFR, AutoCFR4, and AutoCFR8. The results are saved in the folder `models/games`.
+Run the following script to test learned algorithms in Paper, i.e., DCFR+, AutoCFR4, and AutoCFR8. The results are saved in the folder `models/games`.
 ```bash
 python scripts/test_learned_algorithm_in_paper.py
 ```
+
