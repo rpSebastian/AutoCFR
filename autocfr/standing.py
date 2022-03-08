@@ -3,11 +3,11 @@ import pandas as pd
 from pathlib import Path
 
 class Standing:
-    def __init__(self, game_configs):
-        self.load_baseline_score(game_configs)
+    def __init__(self):
+        self.load_baseline_score()
 
-    def load_baseline_score(self, game_configs):
-        game_names = [config["long_name"] for config in game_configs]
+    def load_baseline_score(self):
+        game_names = ["NFG-1", "NFG-2", "NFG-3", "NFG-4", "kuhn_poker", "liars_dice_1n_3s", "liars_dice_1n_4s", "leduc_poker", "goofspiel_3", "goofspiel_4"]
         self.baseline_score = pd.concat([df for df in self.read_games(game_names)])
     
     def read_games(self, game_names):
@@ -39,3 +39,5 @@ class Standing:
         ].iloc[0]["exp"]
         return exp
 
+
+standing = Standing()
