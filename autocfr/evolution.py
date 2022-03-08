@@ -9,7 +9,7 @@ from autocfr.exp import ex
 from autocfr.generator.generator import VecGenerator
 from autocfr.generator.mutate import mutate
 from autocfr.population import Agent, AgentCounter, Population
-from autocfr.standing import standing
+from autocfr.standing import Standing
 
 
 class Evolution:
@@ -24,6 +24,7 @@ class Evolution:
         self.initial_logger()
         self.logger_info()
         self.init_game_config()
+        self.init_standing()
         self.init_population()
         self.init_tensorboard()
         self.init_remote_actor()
@@ -204,6 +205,9 @@ class Evolution:
         for game_config in game_configs:
             self.logger.info(game_config)
 
+    def init_standing(self):
+        self.standing = Standing(self.game_configs)
+        
     @ex.capture
     def init_population(self, init_population_file=None, init_algorithms_file=None):
         if init_population_file is not None:
@@ -296,7 +300,7 @@ class Evolution:
         conv = result["conv"]
         game_config = result["game_config"]
         game_name = game_config["name"]
-        score = standing.score(conv, game_config)
+        score = self.standing.score(conv, game_config)
         agent.set_score(game_name, score, game_config["weight"])
         if verbose:
             self.logger.info(

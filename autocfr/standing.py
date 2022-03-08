@@ -2,14 +2,22 @@ import math
 import pandas as pd
 from pathlib import Path
 
-
 class Standing:
-    def __init__(self):
-        self.load_baseline_score()
+    def __init__(self, game_configs):
+        self.load_baseline_score(game_configs)
 
-    def load_baseline_score(self):
-        csv_file = Path(__file__).parent.parent / "models" / "baseline.csv"
-        self.baseline_score = pd.read_csv(csv_file)
+    def load_baseline_score(self, game_configs):
+        game_names = [config["long_name"] for config in game_configs]
+        self.baseline_score = pd.concat([df for df in self.read_games(game_names)])
+    
+    def read_games(self, game_names):
+        for game_name in game_names:
+            csv_file = Path(__file__).parent.parent / "models" / "games" / game_name / "CFR_{}.csv".format(game_name)
+            df = pd.read_csv(csv_file)
+            yield df
+            csv_file = Path(__file__).parent.parent / "models" / "games" / game_name / "DCFR_{}.csv".format(game_name)
+            df = pd.read_csv(csv_file)
+            yield df
 
     def score(self, exp, game_config):
         iters = game_config["iterations"]
@@ -31,5 +39,3 @@ class Standing:
         ].iloc[0]["exp"]
         return exp
 
-
-standing = Standing()
