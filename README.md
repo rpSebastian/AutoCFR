@@ -61,7 +61,7 @@ tar -zxvf texas_lookup.tar.gz
 ```
 
 ### Test learned algorithms in Paper
-Run the following script to test learned algorithms in Paper, i.e., DCFRPlus, AutoCFR4, and AutoCFRS. The results are saved in the folder `PokerRL/models/`.
+Run the following script to test learned algorithms in Paper, i.e., DCFR+, AutoCFR4, and AutoCFRS. The results are saved in the folder `PokerRL/models/`.
 ```bash
 python PokerRL/scripts/run_cfr.py --iters 20000 --game subgame3 --algo=DCFRPlus
 python PokerRL/scripts/run_cfr.py --iters 20000 --game subgame3 --algo=AutoCFR4
