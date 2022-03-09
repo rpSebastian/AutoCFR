@@ -1,7 +1,7 @@
 # AutoCFR: Learning to Design Counterfactual Regret Minimization Algorithms
 
-> AutoCFR: Learning to Design Counterfactual Regret Minimization Algorithms".
-> Hang Xu<sup>\*</sup> , Kai Li<sup>\*</sup>, Haobo Fu, Qiang Fu, Junliang Xing<sup>#</sup>
+> AutoCFR: Learning to Design Counterfactual Regret Minimization Algorithms". <br>
+> Hang Xu<sup>\*</sup> , Kai Li<sup>\*</sup>, Haobo Fu, Qiang Fu, Junliang Xing<sup>#</sup> <br>
 > AAAI 2022 (Oral)
 
 
@@ -47,4 +47,27 @@ Run the following script to test learned algorithms in Paper, i.e., DCFR+, AutoC
 ```bash
 python scripts/test_learned_algorithm_in_paper.py
 ```
+
+## PokerRL
+
+We use [PokerRL](https://github.com/EricSteinberger/PokerRL) [1] to test learned algorithms in HUNL Subgames.
+
+### Install PokerRL
+
+```bash
+cd PokerRL
+pip install -e .
+tar -zxvf texas_lookup.tar.gz
+```
+
+### Test learned algorithms in Paper
+Run the following script to test learned algorithms in Paper, i.e., DCFRPlus, AutoCFR4, and AutoCFRS. The results are saved in the folder `PokerRL/models/`.
+```bash
+python PokerRL/scripts/run_cfr.py --iters 20000 --game subgame3 --algo=DCFRPlus
+python PokerRL/scripts/run_cfr.py --iters 20000 --game subgame3 --algo=AutoCFR4
+python PokerRL/scripts/run_cfr.py --iters 20000 --game subgame3 --algo=AutoCFRS
+```
+
+## References
+[1] Steinberger, E. 2019. PokerRL. https://github.com/TinkeringCode/PokerRL.
 
