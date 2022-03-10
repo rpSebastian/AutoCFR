@@ -203,7 +203,7 @@ class Evolution:
         self.game_configs = game_configs
         for game_config in game_configs:
             self.logger.info(game_config)
-
+        
     @ex.capture
     def init_population(self, init_population_file=None, init_algorithms_file=None):
         if init_population_file is not None:

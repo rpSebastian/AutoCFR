@@ -78,6 +78,7 @@ class VanillaEvaluator:
             game,
             policy.tabular_policy_from_callable(game, solver.average_policy()),
         )
+        conv = max(conv, 1e-12)
         return conv
 
     def record(self, result):

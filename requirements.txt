@@ -8,6 +8,7 @@ pytest
 pytest-html
 pytest-xdist
 open_spiel
+aiohttp==3.7
 ray==1.5.1
 torch
 tensorboard
