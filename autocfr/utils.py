@@ -4,6 +4,7 @@ import time
 from collections import defaultdict
 from pathlib import Path
 
+import imageio
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
@@ -210,3 +211,21 @@ def load_df(filename):
     )
     df = pd.read_csv(csv_file)
     return df
+
+def remove_border(path):
+    img = imageio.imread(path)
+    h, w, _ = img.shape  
+    for u in range(0, h, 1):
+        if not (img[u, :, :-1] == 255).all():
+            break
+    for d in range(h - 1, 0, -1):
+        if not (img[d, :, :-1] == 255).all():
+            break
+    for l in range(0, w, 1):
+        if not (img[:, l, :-1] == 255).all():
+            break
+    for r in range(w - 1, 0, -1):
+        if not (img[:, r, :-1] == 255).all():
+            break
+    cropped = img[u:d+1, l:r+1, :].copy()
+    imageio.imwrite(path, cropped)

@@ -4,7 +4,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-from xpoker.utils import load_df
+from autocfr.utils import load_df, remove_border
 
 plt.rc("pdf", fonttype=42)
 plt.rc("ps", fonttype=42)
@@ -88,6 +88,8 @@ class PlotAlgorithmCompare:
             transparent=self.transparent,
         )
         plt.close(fig)
+        remove_border(path)
+        
 
     def plot_one_algorithm_exp(self, df, algorithm_name):
         legend_name = self.get_legend_name_by_algorithm(algorithm_name)
@@ -103,12 +105,7 @@ class PlotAlgorithmCompare:
             "CFRPlus": "#7FC41D",
             "LinearCFR": "#F99D00",
             "DCFR": "#7D92EE",
-            "DDCFR": "#A58DF9",
             "DCFRPlus": "#F16D85",
-            "AutoCFR4": "#F1FA8C",
-            "DCFRPlusTwo": "#F1FA8C",
-            "AutoCFRS": "#282A36",
-            "DCFRPlus05": "#282A36",
         }
         return color_dict[algorithm_name]
 
@@ -118,12 +115,9 @@ class PlotAlgorithmCompare:
             "CFRPlus": "CFR+",
             "LinearCFR": "Linear CFR",
             "DCFR": "DCFR",
-            "DDCFR": "DDCFR",
             "DCFRPlus": "DCFR+",
-            "DCFRPlusTwo": "DCFR+2",
             "AutoCFR4": "AutoCFR4",
             "AutoCFRS": "AutoCFRS",
-            "DCFRPlus05": "DCFRPlus05"
         }
         return legend_name_dict[algorithm_name]
 
@@ -166,11 +160,11 @@ class PlotAlgorithmCompare:
         import matplotlib.pyplot as plt
 
         # plt.rc('font', size=20)          # controls default text sizes
-        plt.rc("axes", titlesize=13)  # fontsize of the axes title
-        plt.rc("axes", labelsize=13)  # fontsize of the x and y labels
-        plt.rc("xtick", labelsize=11)  # fontsize of the tick labels
-        plt.rc("ytick", labelsize=11)  # fontsize of the tick labels
-        plt.rc("legend", fontsize=11)  # legend fontsize
+        plt.rc("axes", titlesize=20)  # fontsize of the axes title
+        plt.rc("axes", labelsize=20)  # fontsize of the x and y labels
+        plt.rc("xtick", labelsize=16)  # fontsize of the tick labels
+        plt.rc("ytick", labelsize=16)  # fontsize of the tick labels
+        plt.rc("legend", fontsize=16)  # legend fontsize
         # plt.rc('figure', titlesize=10)  # fontsize of the figure title
 
     def set_yticks(self):
@@ -184,7 +178,7 @@ class PlotAlgorithmCompare:
             -6: "1e-6",
             -5: "1e-5",
             -4: "1e-4",
-            -3: "0.001",
+            -3: "1e-3",
             -2: "0.01",
             -1: "0.1",
             0: "1",
@@ -225,167 +219,6 @@ def plot(cls):
     plot_class_list.append(cls)
     return cls
 
-class PlotGoofspiel3DecCompare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "Goofspiel(3) Dec"
-        self.save_name = "Goofspiel_3_dec"
-        self.tick_min = -9
-        self.tick_max = 0
-        super().__init__("goofspiel_3_dec")
-
-
-class PlotGoofspiel3DecDiffCompare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "Goofspiel(3) Dec Diff"
-        self.save_name = "Goofspiel_3_dec_diff"
-        self.tick_min = -9
-        self.tick_max = 0
-        super().__init__("goofspiel_3_dec_diff")
-
-
-class PlotGoofspiel3ImpDecDiffCompare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "Goofspiel(3) Imp Dec Diff"
-        self.save_name = "Goofspiel_3_imp_dec_diff"
-        self.tick_min = -9
-        self.tick_max = 0
-        super().__init__("goofspiel_3_imp_dec_diff")
-
-
-class PlotGoofspiel4DecCompare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "Goofspiel(4) Dec"
-        self.save_name = "Goofspiel_4_dec"
-        self.tick_min = -9
-        self.tick_max = 0
-        super().__init__("goofspiel_4_dec")
-
-
-class PlotGoofspiel4DecDiffCompare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "Goofspiel(4) Dec Diff"
-        self.save_name = "Goofspiel_4_dec_diff"
-        self.tick_min = -9
-        self.tick_max = 0
-        super().__init__("goofspiel_4_dec_diff")
-
-
-class PlotGoofspiel4Compare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "Goofspiel(4)"
-        self.save_name = "Goofspiel_4"
-        self.tick_min = -5
-        self.tick_max = 0
-        super().__init__("goofspiel_4")
-
-
-class PlotGoofspiel4ImpDecDiffCompare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "Goofspiel(4) Imp Dec Diff"
-        self.save_name = "Goofspiel_4_imp_dec_diff"
-        self.tick_min = -9
-        self.tick_max = 0
-        super().__init__("goofspiel_4_imp_dec_diff")
-
-
-class PlotGoofspiel5DecCompare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "Goofspiel(5) Dec"
-        self.save_name = "Goofspiel_5_dec"
-        self.tick_min = -8
-        self.tick_max = 0
-        super().__init__("goofspiel_5_dec")
-
-
-class PlotGoofspiel5DecDiffCompare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "Goofspiel(5) Dec Diff"
-        self.save_name = "Goofspiel_5_dec_diff"
-        self.tick_min = -4
-        self.tick_max = 1
-        super().__init__("goofspiel_5_dec_diff")
-
-
-class PlotGoofspiel5ImpDecCompare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "Goofspiel(5) Imp Dec"
-        self.save_name = "Goofspiel_5_imp_dec"
-        self.tick_min = -6
-        self.tick_max = 1
-        super().__init__("goofspiel_5_imp_dec")
-
-
-class PlotGoofspiel5ImpDecDiffCompare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "Goofspiel(5) Imp Dec Diff"
-        self.save_name = "Goofspiel_5_imp_dec_diff"
-        self.tick_min = -5
-        self.tick_max = 1
-        super().__init__("goofspiel_5_imp_dec_diff")
-
-
-class PlotGoofspiel6DecCompare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "Goofspiel(6) Dec"
-        self.save_name = "Goofspiel_6_dec"
-        self.tick_min = -3
-        self.tick_max = 1
-        super().__init__("goofspiel_6_dec")
-
-
-class PlotGoofspiel6DecDiffCompare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "Goofspiel(6) Dec Diff"
-        self.save_name = "Goofspiel_6_dec_diff"
-        self.tick_min = -3
-        self.tick_max = 1
-        super().__init__("goofspiel_6_dec_diff")
-
-
-class PlotGoofspiel6ImpDecCompare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "Goofspiel(6) Imp Dec"
-        self.save_name = "Goofspiel_6_imp_dec"
-        self.tick_min = -3
-        self.tick_max = 1
-        super().__init__("goofspiel_6_imp_dec")
-
-
-class PlotGoofspiel6ImpDecDiffCompare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "Goofspiel(6) Imp Dec Diff"
-        self.save_name = "Goofspiel_6_imp_dec_diff"
-        self.tick_min = -4
-        self.tick_max = 1
-        super().__init__("goofspiel_6_imp_dec_diff")
-
-
-class PlotLiarsDice14Compare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "Liar's Dice(1, 4)"
-        self.save_name = "Liars_Dice_1_4"
-        self.tick_min = -7
-        self.tick_max = 0
-        super().__init__("liars_dice_1n_4s")
-
-
-class PlotLiarsDice16Compare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "Liar's Dice(1, 6)"
-        self.save_name = "Liars_Dice_1_6"
-        self.tick_min = -5
-        self.tick_max = 0
-        super().__init__("liars_dice_1n_6s")
-
-
-class PlotLiarsDice15Compare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "Liar's Dice(1, 5)"
-        self.save_name = "Liars_Dice_1_5"
-        self.tick_min = -6
-        self.tick_max = 0
-        super().__init__("liars_dice_1n_5s")
-
 
 @train
 class PlotDCFRExampleCompare(PlotAlgorithmCompare):
@@ -394,7 +227,7 @@ class PlotDCFRExampleCompare(PlotAlgorithmCompare):
         self.save_name = "NFG-1"
         self.tick_min = -3
         self.tick_max = 5
-        super().__init__("rf_game", legend=True, iterations=1000, print_freq=20)
+        super().__init__("NFG-1", legend=True, iterations=1000, print_freq=20)
 
     def get_legend_name_by_algorithm(self, algorithm_name):
         legend_name_dict = {
@@ -415,16 +248,8 @@ class PlotRPS3Compare(PlotAlgorithmCompare):
         self.save_name = "NFG-2"
         self.tick_min = -4
         self.tick_max = 4
-        super().__init__("trm_example", legend=False, iterations=1000, print_freq=20)
+        super().__init__("NFG-2", legend=False, iterations=1000, print_freq=20)
 
-
-class PlotRfCompare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "NFG-5"
-        self.save_name = "NFG-5"
-        self.tick_min = -4
-        self.tick_max = 4
-        super().__init__("dcfr_example", legend=False, iterations=1000, print_freq=20)
 
 
 @train
@@ -434,7 +259,7 @@ class PlotSmallValueCompare(PlotAlgorithmCompare):
         self.save_name = "NFG-3"
         self.tick_min = -10
         self.tick_max = 0
-        super().__init__("small_value", legend=True, iterations=1000, print_freq=20)
+        super().__init__("NFG-3", legend=True, iterations=1000, print_freq=20)
 
 
 @train
@@ -444,7 +269,7 @@ class PlotMoreActionCompare(PlotAlgorithmCompare):
         self.save_name = "NFG-4"
         self.tick_min = -5
         self.tick_max = 3
-        super().__init__("more_action", legend=False, iterations=1000, print_freq=20)
+        super().__init__("NFG-4", legend=False, iterations=1000, print_freq=20)
 
 
 @train
@@ -461,7 +286,7 @@ class PlotKuhnPokerCompare(PlotAlgorithmCompare):
 class PlotLiarsDice13Compare(PlotAlgorithmCompare):
     def __init__(self):
         self.title_name = "Liar's Dice(3)"
-        self.save_name = "Liars_Dice_1_3"
+        self.save_name = "Liars_Dice_3"
         self.tick_min = -8
         self.tick_max = 0
         super().__init__("liars_dice_1n_3s", legend=False, iterations=1000, print_freq=20)
@@ -471,7 +296,7 @@ class PlotLiarsDice13Compare(PlotAlgorithmCompare):
 class PlotLiarsDice14T100Compare(PlotAlgorithmCompare):
     def __init__(self):
         self.title_name = "Liar's Dice(4)"
-        self.save_name = "Liars_Dice_1_4_100"
+        self.save_name = "Liars_Dice_4"
         self.tick_min = -4
         self.tick_max = 0
         super().__init__("liars_dice_1n_4s", legend=False, iterations=100, print_freq=2)
@@ -484,7 +309,7 @@ class PlotGoofspiel3ImpDecCompare(PlotAlgorithmCompare):
         self.save_name = "Goofspiel_3"
         self.tick_min = -9
         self.tick_max = 0
-        super().__init__("goofspiel_3_imp_dec", legend=False, iterations=1000, print_freq=20)
+        super().__init__("goofspiel_3", legend=False, iterations=1000, print_freq=20)
 
 
 # @plot
@@ -497,7 +322,7 @@ class PlotGoofspiel4ImpDecCompare(PlotAlgorithmCompare):
         self.tick_min = -7
         self.tick_max = 1
         super().__init__(
-            "goofspiel_4_imp_dec", legend=True, iterations=20000, print_freq=100
+            "goofspiel_4", legend=True, iterations=20000, print_freq=100
         )
 
 
@@ -509,34 +334,6 @@ class PlotLeducPokerCompare(PlotAlgorithmCompare):
         self.tick_min = -6
         self.tick_max = 1
         super().__init__("leduc_poker", legend=False, iterations=20000, print_freq=100)
-
-
-@test
-class PlotBigLeducPokerCompare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "Big Leduc Poker"
-        self.save_name = "Big_Leduc_Poker"
-        self.tick_min = -7
-        self.tick_max = 1
-        super().__init__("bigleduc", legend=False, iterations=20000, print_freq=100)
-
-
-class PlotSubgame1Compare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "HUNL Subgame(1)"
-        self.save_name = "Subgame1"
-        self.tick_min = -4
-        self.tick_max = 2
-        super().__init__("subgame1", legend=True, iterations=4000, print_freq=20)
-
-
-class PlotSubgame2Compare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "HUNL Subgame(2)"
-        self.save_name = "Subgame2"
-        self.tick_min = -4
-        self.tick_max = 2
-        super().__init__("subgame2", legend=True, iterations=4000, print_freq=20)
 
 
 @test
@@ -557,14 +354,6 @@ class PlotSubgame4Compare(PlotAlgorithmCompare):
         self.tick_max = 2
         super().__init__("subgame4", legend=False, iterations=20000, print_freq=100)
 
-@plot
-class PlotRPS3Compare(PlotAlgorithmCompare):
-    def __init__(self):
-        self.title_name = "test_nfg"
-        self.save_name = "test_nfg"
-        self.tick_min = -4
-        self.tick_max = 4
-        super().__init__("test_nfg", legend=True, iterations=1000, print_freq=20)
 
 for run_class in train_class_list:
     run_class().run()
