@@ -24,7 +24,7 @@ python scripts/train.py
 
 You can modify the configuration in the following ways:
 
-1. Modify the operations. Specify your operations in `autocfr/program/operations.py` and specify a list of operations to use in `autocfr/generator/mutate.py`.
+1. Modify the operations. Some codes are from [Meta-learning curiosity algorithms](https://github.com/mfranzs/meta-learning-curiosity-algorithms)[2]. Specify your operations in `autocfr/program/operations.py` and specify a list of operations to use in `autocfr/generator/mutate.py`.
 2. Modify the type and number of games used for training. Specify your game in `autocfr/utils.py:load_game_configs`.
 3. By default, we learn from bootstrapping. If you want to learn from scratch, Set `init_algorithms_file` to `["models/algorithms/empty.pkl]` in `scripts/train.py`. 
 4. Modify the hyperparameters. Edit the file `scripts/train.py`.
@@ -67,7 +67,21 @@ python PokerRL/scripts/run_cfr.py --iters 20000 --game subgame3 --algo=DCFRPlus
 python PokerRL/scripts/run_cfr.py --iters 20000 --game subgame3 --algo=AutoCFR4
 python PokerRL/scripts/run_cfr.py --iters 20000 --game subgame3 --algo=AutoCFRS
 ```
+## Citing
+If you use AutoCFR in your research, you can cite it as follows:
+```
+@inproceedings{AutoCFR,
+  title     = {AutoCFR: Learning to Design Counterfactual Regret Minimization Algorithms},
+  author    = {Hang, Xu and Kai, Li and Haobo, Fu and Qiang, Fu and Junliang, Xing},
+  booktitle = {AAAI Conference on Artificial Intelligence},
+  year      = {2022}
+}
+```
+
 
 ## References
+
 [1] Steinberger, E. 2019. PokerRL. https://github.com/TinkeringCode/PokerRL.
+
+[2] Alet, F.; Schneider, M. F.; Lozano-Perez, T.; and Kaelbling, L. P. 2019. Meta-learning curiosity algorithms. In International Conference on Learning Representations, 1–21.
 
