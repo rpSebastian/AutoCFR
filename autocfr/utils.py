@@ -8,6 +8,7 @@ import imageio
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
+from PIL import Image
 
 
 class Timer:
@@ -229,3 +230,11 @@ def remove_border(path):
             break
     cropped = img[u:d+1, l:r+1, :].copy()
     imageio.imwrite(path, cropped)
+
+
+def png_to_pdf(path):
+    path = str(path)
+    image1 = Image.open(path)
+    im1 = image1.convert('RGB')
+    save_path = path.replace("png", "pdf")
+    im1.save(save_path)

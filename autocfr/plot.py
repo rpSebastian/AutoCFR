@@ -4,7 +4,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-from autocfr.utils import load_df, remove_border
+from autocfr.utils import load_df, remove_border, png_to_pdf
 
 plt.rc("pdf", fonttype=42)
 plt.rc("ps", fonttype=42)
@@ -24,7 +24,6 @@ class PlotAlgorithmCompare:
         self.legend = legend
         if self.legend:
             self.save_name += "_legend"
-        self.tick_list = list(range(self.tick_min, self.tick_max + 1))
         self.ymin = self.tick_min
         self.ymax = self.tick_max
         self.format = "png"
@@ -44,6 +43,8 @@ class PlotAlgorithmCompare:
         self.iterations = iterations
         self.transparent = False
         self.chinese = False
+        self.dpi = 1000
+        self.xlabel_unit = None
         self.font = matplotlib.font_manager.FontProperties(
             fname="C:\\Windows\\Fonts\\SimHei.ttf"
         )
@@ -67,16 +68,19 @@ class PlotAlgorithmCompare:
         if self.legend:
             plt.legend()
         plt.title(self.title_name)
+        self.set_xticks()
+        self.set_yticks()
         if self.chinese:
             plt.xlabel("迭代次数", fontproperties=self.font)
             plt.ylabel("可利用度(与纳什均衡策略的距离)", fontproperties=self.font)
         else:
-            plt.xlabel("Iterations")
+            xlabel = "Iterations"
+            if self.xlabel_unit:
+                xlabel += f" ({self.xlabel_unit})"
+            plt.xlabel(xlabel)
             plt.ylabel("Exploitability")
-        self.set_xticks()
-        self.set_yticks()
         self.set_lim()
-        path = Path("images/{}/{}/{}.{}".format(self.save_dir, self.format, self.save_name, self.format))
+        path = Path("images/{}/{}.{}".format(self.save_dir, self.save_name, self.format))
         path.parent.mkdir(exist_ok=True, parents=True)
         # plt.show()
         plt.savefig(
@@ -84,11 +88,12 @@ class PlotAlgorithmCompare:
             format=self.format,
             bbox_inches="tight",
             pad_inches=0,
-            dpi=1000,
+            dpi=self.dpi,
             transparent=self.transparent,
         )
         plt.close(fig)
         remove_border(path)
+        png_to_pdf(path)
         
 
     def plot_one_algorithm_exp(self, df, algorithm_name):
@@ -162,9 +167,9 @@ class PlotAlgorithmCompare:
         # plt.rc('font', size=20)          # controls default text sizes
         plt.rc("axes", titlesize=20)  # fontsize of the axes title
         plt.rc("axes", labelsize=20)  # fontsize of the x and y labels
-        plt.rc("xtick", labelsize=16)  # fontsize of the tick labels
-        plt.rc("ytick", labelsize=16)  # fontsize of the tick labels
-        plt.rc("legend", fontsize=16)  # legend fontsize
+        plt.rc("xtick", labelsize=20)  # fontsize of the tick labels
+        plt.rc("ytick", labelsize=20)  # fontsize of the tick labels
+        plt.rc("legend", fontsize=20)  # legend fontsize
         # plt.rc('figure', titlesize=10)  # fontsize of the figure title
 
     def set_yticks(self):
@@ -184,10 +189,18 @@ class PlotAlgorithmCompare:
             0: "1",
             1: "10",
             2: "100",
-            3: "1000",
+            3: "1e3",
             4: "1e4",
             5: "1e5",
         }
+        tick_len = self.tick_max - self.tick_min + 1
+        if tick_len > 6 and tick_len % 2 == 0:
+            self.tick_max += 1
+        tick_len = self.tick_max - self.tick_min + 1
+        if tick_len > 6:
+            self.tick_list = list(range(self.tick_min, self.tick_max + 1, 2))
+        else:
+            self.tick_list = list(range(self.tick_min, self.tick_max + 1))
         tick_range_before = [i for i in self.tick_list if i in tick_dict]
         tick_range_after = [tick_dict[tick] for tick in tick_range_before]
         plt.yticks(tick_range_before, tick_range_after)
@@ -196,6 +209,9 @@ class PlotAlgorithmCompare:
         tick_list = list(range(0, self.iterations + 1, self.iterations // 4))
         tick_range_before = [i for i in tick_list]
         tick_range_after = [i for i in tick_list]
+        if tick_range_after[-1] > 1000:
+            tick_range_after = [i // 1000 for i in tick_range_after]
+            self.xlabel_unit = "$\\times10^3$"
         plt.xticks(tick_range_before, tick_range_after)
 
     def set_lim(self):
@@ -285,7 +301,7 @@ class PlotKuhnPokerCompare(PlotAlgorithmCompare):
 @train
 class PlotLiarsDice13Compare(PlotAlgorithmCompare):
     def __init__(self):
-        self.title_name = "Liar's Dice(3)"
+        self.title_name = "Liar's Dice (3)"
         self.save_name = "Liars_Dice_3"
         self.tick_min = -8
         self.tick_max = 0
@@ -295,7 +311,7 @@ class PlotLiarsDice13Compare(PlotAlgorithmCompare):
 @train
 class PlotLiarsDice14T100Compare(PlotAlgorithmCompare):
     def __init__(self):
-        self.title_name = "Liar's Dice(4)"
+        self.title_name = "Liar's Dice (4)"
         self.save_name = "Liars_Dice_4"
         self.tick_min = -4
         self.tick_max = 0
@@ -305,10 +321,10 @@ class PlotLiarsDice14T100Compare(PlotAlgorithmCompare):
 @train
 class PlotGoofspiel3ImpDecCompare(PlotAlgorithmCompare):
     def __init__(self):
-        self.title_name = "Goofspiel(3)"
+        self.title_name = "Goofspiel (3)"
         self.save_name = "Goofspiel_3"
         self.tick_min = -9
-        self.tick_max = 0
+        self.tick_max = 1
         super().__init__("goofspiel_3", legend=False, iterations=1000, print_freq=20)
 
 
@@ -317,7 +333,7 @@ class PlotGoofspiel3ImpDecCompare(PlotAlgorithmCompare):
 @test
 class PlotGoofspiel4ImpDecCompare(PlotAlgorithmCompare):
     def __init__(self):
-        self.title_name = "Goofspiel(4)"
+        self.title_name = "Goofspiel (4)"
         self.save_name = "Goofspiel_4"
         self.tick_min = -7
         self.tick_max = 1
@@ -332,23 +348,23 @@ class PlotLeducPokerCompare(PlotAlgorithmCompare):
         self.title_name = "Leduc Poker"
         self.save_name = "Leduc_Poker"
         self.tick_min = -6
-        self.tick_max = 1
+        self.tick_max = 2
         super().__init__("leduc_poker", legend=False, iterations=20000, print_freq=100)
 
 
 @test
 class PlotSubgame3Compare(PlotAlgorithmCompare):
     def __init__(self):
-        self.title_name = "HUNL Subgame(3)"
+        self.title_name = "HUNL Subgame (3)"
         self.save_name = "Subgame3"
         self.tick_min = -5
-        self.tick_max = 2
+        self.tick_max = 3
         super().__init__("subgame3", legend=False, iterations=20000, print_freq=100)
 
 @test
 class PlotSubgame4Compare(PlotAlgorithmCompare):
     def __init__(self):
-        self.title_name = "HUNL Subgame(4)"
+        self.title_name = "HUNL Subgame (4)"
         self.save_name = "Subgame4"
         self.tick_min = -6
         self.tick_max = 2
