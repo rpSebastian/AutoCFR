@@ -74,7 +74,8 @@ If you use AutoCFR in your research, you can cite it as follows:
   title     = {AutoCFR: Learning to Design Counterfactual Regret Minimization Algorithms},
   author    = {Hang, Xu and Kai, Li and Haobo, Fu and Qiang, Fu and Junliang, Xing},
   booktitle = {AAAI Conference on Artificial Intelligence},
-  year      = {2022}
+  year      = {2022},
+  pages     = {5244--5251}
 }
 ```
 
