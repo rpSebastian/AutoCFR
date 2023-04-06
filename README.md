@@ -9,7 +9,7 @@
 
 ```bash
 sudo apt install graphviz xdg-utils xvfb
-conda create -n AutoCFR python==3.7
+conda create -n AutoCFR python==3.7.10
 conda activate AutoCFR
 pip install -e .
 pytest tests

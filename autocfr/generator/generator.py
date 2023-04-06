@@ -9,7 +9,6 @@ from autocfr.worker import VecWorker, Worker
 
 
 class Generator(Worker):
-    @ex.capture
     def __init__(
         self,
         index,
