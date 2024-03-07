@@ -1,6 +1,6 @@
 # AutoCFR: Learning to Design Counterfactual Regret Minimization Algorithms
 
-> AutoCFR: Learning to Design Counterfactual Regret Minimization Algorithms". <br>
+> AutoCFR: Learning to Design Counterfactual Regret Minimization Algorithms <br>
 > Hang Xu<sup>\*</sup> , Kai Li<sup>\*</sup>, Haobo Fu, Qiang Fu, Junliang Xing<sup>#</sup> <br>
 > AAAI 2022 (Oral)
 
