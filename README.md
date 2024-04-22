@@ -17,7 +17,8 @@ pytest tests
 
 ## Train AutoCFR
 
-To easily run the code for training, we provide a unified interface. Each experiment will generate an experiment id and create a unique directory in `logs`. 
+To easily run the code for training, we provide a unified interface. Each experiment will generate an experiment id and create a unique directory in `logs`. We use games implemented by [OpenSpiel](https://github.com/deepmind/open_spiel) [1].
+
 ```bash
 python scripts/train.py
 ```
@@ -50,7 +51,7 @@ python scripts/test_learned_algorithm_in_paper.py
 
 ## PokerRL
 
-We use [PokerRL](https://github.com/EricSteinberger/PokerRL) [1] to test learned algorithms in HUNL Subgames.
+We use [PokerRL](https://github.com/EricSteinberger/PokerRL) [3] to test learned algorithms in HUNL Subgames.
 
 ### Install PokerRL
 
@@ -82,7 +83,8 @@ If you use AutoCFR in your research, you can cite it as follows:
 
 ## References
 
-[1] Steinberger, E. 2019. PokerRL. https://github.com/TinkeringCode/PokerRL.
+[1] Lanctot, M.; Lockhart, E.; Lespiau, J.-B.; Zambaldi, V.; Upadhyay, S.; P´erolat, J.; Srinivasan, S.; Timbers, F.; Tuyls, K.; Omidshafiei, S.; Hennes, D.; Morrill, D.; Muller, P.; Ewalds, T.; Faulkner, R.; Kram´ar, J.; Vylder, B. D.; Saeta, B.; Bradbury, J.; Ding, D.; Borgeaud, S.; Lai, M.; Schrittwieser, J.; Anthony, T.; Hughes, E.; Danihelka, I.; and Ryan-Davis, J. 2019. OpenSpiel: A Framework for Reinforcement Learning in Games. CoRR, abs/1908.09453.
 
 [2] Alet, F.; Schneider, M. F.; Lozano-Perez, T.; and Kaelbling, L. P. 2019. Meta-learning curiosity algorithms. In International Conference on Learning Representations, 1–21.
 
+[3] Steinberger, E. 2019. PokerRL. https://github.com/TinkeringCode/PokerRL.
